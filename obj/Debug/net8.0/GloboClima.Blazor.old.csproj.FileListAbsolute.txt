@@ -1,0 +1,8 @@
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.AssemblyInfoInputs.cache
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.AssemblyInfo.cs
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.csproj.CoreCompileInputs.cache
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.RazorAssemblyInfo.cache
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.RazorAssemblyInfo.cs
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor.old\obj\Debug\net8.0\GloboClima.Blazor.old.sourcelink.json

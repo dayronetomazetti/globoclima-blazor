@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GloboClima.Api.Backend.CompletoComUsuarios.Reupload\GloboClima.Api.csproj" />
   </ItemGroup>
 
 </Project>

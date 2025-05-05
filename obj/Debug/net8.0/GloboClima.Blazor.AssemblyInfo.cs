@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GloboClima.Blazor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+902b0e6536099032cb682041527ed58f457ef80c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd3648be9149f15efb0873d1a61ba11d0aefc5b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("GloboClima.Blazor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GloboClima.Blazor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

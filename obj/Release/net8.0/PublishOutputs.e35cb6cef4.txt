@@ -1,0 +1,12 @@
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\GloboClima.Blazor.exe
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\build\web.config
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\appsettings.Development.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\appsettings.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\build\appsettings.Development.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\build\appsettings.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\build\GloboClima.Blazor.deps.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\build\GloboClima.Blazor.runtimeconfig.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\GloboClima.Blazor.dll
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\GloboClima.Blazor.deps.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\GloboClima.Blazor.runtimeconfig.json
+C:\Users\Pc\source\repos\GloboClimaBlazor\GloboClima.Blazor\build\GloboClima.Blazor.pdb
