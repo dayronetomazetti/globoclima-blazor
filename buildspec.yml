@@ -24,3 +24,8 @@ phases:
       - ls -la build/wwwroot
       - echo "Enviando arquivos para o S3..."
       - aws s3 sync build/wwwroot s3://globoclima-frontend-deploy --delete
+
+artifacts:
+  base-directory: build/wwwroot
+  files:
+    - '**/*'
