@@ -10,14 +10,17 @@ phases:
 
   build:
     commands:
+      - echo "Verificando estrutura de diretórios..."
+      - pwd
+      - ls -la
+      - ls -R
       - echo "Publicando Blazor WebAssembly..."
-      - dotnet publish GloboClima.Blazor/GloboClima.Blazor.csproj -c Release -o GloboClima.Blazor/build
+      - dotnet publish -c Release -o build
 
   post_build:
     commands:
+      - echo "Verificando saída de publicação..."
+      - ls -la build
+      - ls -la build/wwwroot
       - echo "Enviando arquivos para o S3..."
-      - aws s3 sync GloboClima.Blazor/build/wwwroot s3://globoclima-frontend-deploy --delete
-
-artifacts:
-  files:
-    - '**/*'
+      - aws s3 sync build/wwwroot s3://globoclima-frontend-deploy --delete
