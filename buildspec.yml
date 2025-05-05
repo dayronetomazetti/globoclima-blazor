@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: 8.0
+    commands:
+      - echo "Instalando dependências .NET..."
+      - dotnet --version
+
+  build:
+    commands:
+      - echo "Publicando Blazor WebAssembly..."
+      - dotnet publish -c Release -o build
+
+  post_build:
+    commands:
+      - echo "Enviando arquivos para o S3..."
+      - aws s3 sync build/wwwroot s3://globoclima-frontend-deploy --delete
+
+artifacts:
+  files:
+    - '**/*'
