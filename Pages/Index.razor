@@ -1,0 +1,146 @@
+﻿@page "/"
+@inject IHttpClientFactory HttpFactory
+@inject IJSRuntime JS
+
+<h3>Consulta de Temperatura</h3>
+
+<div class="mb-3">
+    <div class="mb-3">
+        <input class="form-control" @bind="cidade" placeholder="Digite o nome do país ou cidade" />
+        <button class="btn btn-primary mt-2" @onclick="BuscarTemperatura">Buscar</button>
+    </div>
+</div>
+
+@if (erro != null)
+{
+    <div class="alert alert-danger mt-3">@erro</div>
+}
+@if (clima != null)
+{
+    <div class="mt-4">
+        <h5>Resultado para: @cidade.ToUpper()</h5>
+        <p>🌡️ Temperatura: <strong>@clima.Temperatura°C</strong></p>
+        <p>🔺 Máxima: <strong>@clima.TemperaturaMaxima°C</strong></p>
+        <p>🔻 Mínima: <strong>@clima.TemperaturaMinima°C</strong></p>
+        <p>💧 Umidade: <strong>@clima.Umidade%</strong></p>
+        @if (usuarioLogado && buscaEfetuada)
+        {
+            <button class="btn @(favorito ? "btn-danger" : "btn-success")" @onclick="AlternarFavorito">
+                @(favorito ? "Remover dos Favoritos" : "Adicionar aos Favoritos")
+            </button>
+            <Toast @ref="_toast" />
+        }
+    </div>
+
+
+}
+
+@code {
+    private string cidade;
+    private Clima? clima;
+    private string? erro;
+    private bool usuarioLogado = false;
+    private string? token;
+    private bool favorito = false;
+    private bool buscaEfetuada = false;
+    private Toast _toast;
+    private bool resultadoEhPais = false;
+    private bool _renderizou = false;
+
+    private HttpClient _http;
+
+    protected override void OnInitialized()
+    {
+        _http = HttpFactory.CreateClient("GloboClimaApi");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _http = HttpFactory.CreateClient("GloboClimaApi");
+        usuarioLogado = !string.IsNullOrWhiteSpace(token);
+
+        if (usuarioLogado)
+            _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_renderizou)
+        {
+            _renderizou = true;
+
+            token = await JS.InvokeAsync<string>("sessionStorageHelper.get", "authToken");
+            usuarioLogado = !string.IsNullOrWhiteSpace(token);
+
+            if (usuarioLogado)
+                _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            StateHasChanged(); // Re-renderiza a UI com os dados carregados
+        }
+    }
+
+    private async Task BuscarTemperatura()
+    {
+        erro = null;
+        clima = null;
+        favorito = false;
+        buscaEfetuada = false;
+
+        try
+        {
+            var resposta = await _http.GetFromJsonAsync<Clima>($"temperatura/{cidade}");
+            clima = resposta;
+            buscaEfetuada = true;
+
+            // Verifica se é país
+            var resultado = await _http.GetAsync($"pais/{cidade}");
+            resultadoEhPais = resultado.IsSuccessStatusCode;
+
+            if (usuarioLogado)
+            {
+                var favoritoCheck = resultadoEhPais
+                    ? await _http.GetAsync($"favoritos/pais/{cidade}")
+                    : await _http.GetAsync($"favoritos/cidade/{cidade}");
+
+                favorito = favoritoCheck.IsSuccessStatusCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            erro = "Erro ao buscar temperatura: " + ex.Message;
+        }
+    }
+
+    private async Task AlternarFavorito()
+    {
+        HttpResponseMessage resposta;
+
+        if (favorito)
+        {
+            resposta = resultadoEhPais
+                ? await _http.DeleteAsync($"favoritos/pais/{cidade}")
+                : await _http.DeleteAsync($"favoritos/cidade/{cidade}");
+
+            await _toast.ShowToast("Removido dos favoritos!", "warning");
+        }
+        else
+        {
+            resposta = resultadoEhPais
+                ? await _http.PostAsync($"favoritos/pais/{cidade}", null)
+                : await _http.PostAsync($"favoritos/cidade/{cidade}", null);
+
+            await _toast.ShowToast("Adicionado aos favoritos!", "success");
+        }
+
+        if (resposta.IsSuccessStatusCode)
+            favorito = !favorito;
+    }
+
+    public class Clima
+    {
+        public float Temperatura { get; set; }
+        public float TemperaturaMinima { get; set; }
+        public float TemperaturaMaxima { get; set; }
+        public int Umidade { get; set; }
+    }
+}

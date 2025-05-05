@@ -1,0 +1,126 @@
+﻿@page "/pais"
+@inject IHttpClientFactory HttpFactory
+@inject IJSRuntime JS
+
+<h3>Informações do País</h3>
+
+<div class="mb-3">
+    <input class="form-control" @bind="nomePais" placeholder="Digite o nome do país" />
+    <button class="btn btn-primary mt-2" @onclick="BuscarPais">Buscar</button>
+</div>
+
+@if (carregando)
+{
+    <p>Carregando...</p>
+}
+else if (erro != null)
+{
+    <p class="text-danger">@erro</p>
+}
+else if (pais != null)
+{
+    <div class="card p-3">
+        <h4>@pais.Nome</h4>
+        <p><strong>Capital:</strong> @pais.Capital</p>
+        <p><strong>Região:</strong> @pais.Continente</p>
+        <p><strong>População:</strong> @pais.Populacao.ToString("N0")</p>
+        <p><strong>Area:</strong> @pais.Area.ToString("N0")</p>
+        <p><strong>Moeda:</strong> @pais.Moeda</p>
+    </div>
+}
+
+@if (buscaEfetuada && usuarioLogado)
+{
+    <button class="btn @(favorito ? "btn-danger" : "btn-success")" @onclick="AlternarFavorito">
+        @(favorito ? "Remover dos Favoritos" : "Adicionar aos Favoritos")
+    </button>
+    <Toast @ref="_toast" />
+}
+
+@code {
+    private bool usuarioLogado = false;
+    private bool favorito = false;
+    private string? token;
+    private string nomePais = string.Empty;
+    private PaisResponse? pais;
+    private string? erro;
+    private bool carregando = false;
+    private HttpClient _http;
+    private Toast _toast;
+    private bool buscaEfetuada = false;
+
+
+    protected override void OnInitialized()
+    {
+        _http = HttpFactory.CreateClient("GloboClimaApi");
+    }
+
+    private async Task BuscarPais()
+    {
+        carregando = true;
+        erro = null;
+        pais = null;
+
+        try
+        {
+            var resposta = await _http.GetFromJsonAsync<PaisResponse>($"pais/{nomePais}");
+            pais = resposta;
+            buscaEfetuada = true;
+
+            if (usuarioLogado)
+            {
+                var check = await _http.GetAsync($"favoritos/pais/{nomePais}");
+                favorito = check.IsSuccessStatusCode;
+            }
+        }
+        catch
+        {
+            erro = "Não foi possível obter as informações.";
+        }
+
+        carregando = false;
+    }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _http = HttpFactory.CreateClient("GloboClimaApi");
+        token = await JS.InvokeAsync<string>("sessionStorageHelper.get", "authToken");
+        usuarioLogado = !string.IsNullOrWhiteSpace(token);
+
+        if (usuarioLogado)
+            _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    }
+
+    private async Task AlternarFavorito()
+    {
+
+        HttpResponseMessage resposta;
+
+        if (favorito)
+        {
+            resposta = await _http.DeleteAsync($"favoritos/pais/{pais.Nome}");
+            await _toast.ShowToast("Removido dos favoritos!", "warning");
+        }
+        else
+        {
+            resposta = await _http.PostAsync($"favoritos/pais/{pais.Nome}", null);
+            await _toast.ShowToast("Adicionado aos favoritos!", "success");
+        }
+
+        if (resposta.IsSuccessStatusCode)
+            favorito = !favorito;
+    }
+
+
+    public class PaisResponse
+    {
+        public string Nome { get; set; } = "";
+        public string Capital { get; set; } = "";
+        public long Populacao { get; set; }
+        public long Area { get; set; } 
+        public string Continente { get; set; } = "";
+        public string Moeda { get; set; }
+    }
+}

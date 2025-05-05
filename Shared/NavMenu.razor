@@ -1,0 +1,77 @@
+﻿@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">GloboClima.Blazor</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link text-white" href="">
+                <span class="oi oi-dashboard me-2"></span> Temperatura
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link text-white" href="pais">
+                <span class="oi oi-map-marker me-2"></span> Informações Paises
+            </NavLink>
+        </div>
+
+        @if (usuarioLogado)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-white" href="favoritos">
+                    <span class="oi oi-star me-2"></span> Favoritos
+                </NavLink>
+            </div>
+        }
+        else
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-white" href="realizarcadastro">
+                    <span class="oi oi-plus me-2"></span> Realizar Cadastro
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-white" href="login">
+                    <span class="oi oi-person me-2"></span> Login
+                </NavLink>
+            </div>
+        }
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private bool usuarioLogado = false;
+    private bool renderizado = false;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !renderizado)
+        {
+            renderizado = true;
+
+            var username = await JS.InvokeAsync<string>("sessionStorageHelper.get", "username");
+            usuarioLogado = !string.IsNullOrWhiteSpace(username);
+
+            StateHasChanged(); 
+        }
+    }
+}
+

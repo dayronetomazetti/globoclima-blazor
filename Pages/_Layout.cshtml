@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace GloboClima.Blazor.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="GloboClima.Blazor.styles.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+<body>
+    <div class="bg-dark text-white py-2 px-3 d-flex justify-content-between align-items-center">
+        <span>🌐 GloboClima</span>
+        <div>
+            <span id="user-info" class="me-3 fw-bold">🔓 Visitante</span>
+            <button id="logout-btn" class="btn btn-sm btn-outline-light d-none" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="js/sessionStorage.js"></script>
+    <script>
+        window.userDisplay.showLoggedUser();
+    </script>
+    <script src="_framework/blazor.server.js"></script>
+
+</body>
+</html>

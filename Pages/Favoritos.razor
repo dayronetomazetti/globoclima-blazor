@@ -1,0 +1,134 @@
+﻿@page "/favoritos"
+@inject IHttpClientFactory HttpFactory
+@inject IJSRuntime JS
+
+<h3>Favoritos</h3>
+
+@if (!usuarioLogado)
+{
+    <div class="alert alert-warning">
+        Você precisa estar logado para visualizar seus favoritos.
+    </div>
+}
+else if (carregando)
+{
+    <p>Carregando favoritos...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Cidades Favoritas</h5>
+            @if (CidadesFavoritas?.Any() == true)
+            {
+                <ul class="list-group">
+                    @foreach (var cidade in CidadesFavoritas)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @cidade.NomeCidade
+                            <button class="btn btn-sm btn-danger" @onclick="() => RemoverCidade(cidade.NomeCidade)">Remover</button>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Nenhuma cidade favoritada.</p>
+            }
+        </div>
+
+        <div class="col-md-6">
+            <h5>Países Favoritos</h5>
+            @if (PaisesFavoritos?.Any() == true)
+            {
+                <ul class="list-group">
+                    @foreach (var pais in PaisesFavoritos)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @pais.NomePais
+                            <button class="btn btn-sm btn-danger" @onclick="() => RemoverPais(pais.NomePais)">Remover</button>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Nenhum país favoritado.</p>
+            }
+        </div>
+    </div>
+}
+
+<Toast @ref="_toast" />
+
+@code {
+    private bool usuarioLogado = false;
+    private bool carregando = true;
+    private string? token;
+    private HttpClient _http;
+
+    private Toast _toast;
+
+    private List<CidadeFavorita> CidadesFavoritas = new();
+    private List<PaisFavorito> PaisesFavoritos = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _http = HttpFactory.CreateClient("GloboClimaApi");
+        token = await JS.InvokeAsync<string>("sessionStorageHelper.get", "authToken");
+        usuarioLogado = !string.IsNullOrWhiteSpace(token);
+
+        if (!usuarioLogado)
+        {
+            carregando = false;
+            return;
+        }
+
+        _http.DefaultRequestHeaders.Authorization =
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        try
+        {
+            CidadesFavoritas = await _http.GetFromJsonAsync<List<CidadeFavorita>>("favoritos/cidades") ?? new();
+            PaisesFavoritos = await _http.GetFromJsonAsync<List<PaisFavorito>>("favoritos/paises") ?? new();
+        }
+        catch
+        {
+            await _toast.ShowToast("Erro ao carregar favoritos.", "danger");
+        }
+
+        carregando = false;
+    }
+
+    private async Task RemoverCidade(string nome)
+    {
+        var resposta = await _http.DeleteAsync($"favoritos/cidade/{nome}");
+        if (resposta.IsSuccessStatusCode)
+        {
+            CidadesFavoritas.RemoveAll(c => c.NomeCidade == nome);
+            await _toast.ShowToast("Cidade removida!", "warning");
+        }
+    }
+
+    private async Task RemoverPais(string nome)
+    {
+        var resposta = await _http.DeleteAsync($"favoritos/pais/{nome}");
+        if (resposta.IsSuccessStatusCode)
+        {
+            PaisesFavoritos.RemoveAll(p => p.NomePais == nome);
+            await _toast.ShowToast("País removido!", "warning");
+        }
+    }
+
+    public class CidadeFavorita
+    {
+        public string Username { get; set; } = "";
+        public string NomeCidade { get; set; } = "";
+    }
+
+    public class PaisFavorito
+    {
+        public string Username { get; set; } = "";
+        public string NomePais { get; set; } = "";
+    }
+}

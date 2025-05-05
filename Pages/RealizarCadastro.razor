@@ -1,0 +1,29 @@
+﻿@page "/realizarcadastro"
+@inject AuthService Auth
+@inject NavigationManager Navigation
+
+<h3>Cadastro</h3>
+
+<div class="mb-3">
+    <input class="form-control" placeholder="Usuário" @bind="username" />
+</div>
+<div class="mb-3">
+    <input type="password" class="form-control" placeholder="Senha" @bind="password" />
+</div>
+<button class="btn btn-success" @onclick="Cadastro">Cadastrar</button>
+<p class="text-danger">@mensagemErro</p>
+
+@code {
+    string username = "";
+    string password = "";
+    string mensagemErro = "";
+
+    private async Task Cadastro()
+    {
+        var sucesso = await Auth.RegisterAsync(username, password);
+        if (sucesso)
+            Navigation.NavigateTo("/login");
+        else
+            mensagemErro = "Erro ao registrar usuário.";
+    }
+}

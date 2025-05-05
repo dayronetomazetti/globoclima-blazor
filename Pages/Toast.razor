@@ -1,0 +1,39 @@
+﻿<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    @if (Show)
+    {
+        <div class="toast show align-items-center text-bg-@Color border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    @Message
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" @onclick="Hide"></button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Message { get; set; } = string.Empty;
+    [Parameter] public string Color { get; set; } = "success"; 
+    [Parameter] public int Duration { get; set; } = 3000;
+
+    private bool Show { get; set; }
+
+    public async Task ShowToast(string message, string color = "success", int duration = 3000)
+    {
+        Message = message;
+        Color = color;
+        Duration = duration;
+        Show = true;
+        StateHasChanged();
+
+        await Task.Delay(duration);
+        Hide();
+    }
+
+    private void Hide()
+    {
+        Show = false;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,81 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\GloboClima.Blazor.bundle.scp.css",
+      "PackagePath": "staticwebassets\\GloboClima.Blazor.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Pc\\source\\repos\\GloboClimaBlazor\\GloboClima.Blazor\\wwwroot\\js\\sessionStorage.js",
+      "PackagePath": "staticwebassets\\js\\sessionStorage.js"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.GloboClima.Blazor.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.GloboClima.Blazor.props",
+      "PackagePath": "build\\GloboClima.Blazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.GloboClima.Blazor.props",
+      "PackagePath": "buildMultiTargeting\\GloboClima.Blazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.GloboClima.Blazor.props",
+      "PackagePath": "buildTransitive\\GloboClima.Blazor.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
