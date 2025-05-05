@@ -1,0 +1,54 @@
+name: Deploy Blazor Server to Elastic Beanstalk
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1
+      APPLICATION_NAME: GloboClima
+      ENVIRONMENT_NAME: globo-clima-env
+      S3_BUCKET_NAME: deploy-globo-clima
+      DOTNET_VERSION: '8.0.x'
+
+    steps:
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: 🛠️ Buildar aplicação
+        run: dotnet publish -c Release -o publish
+
+      - name: 📦 Criar arquivo zip
+        run: zip -r app.zip ./publish
+
+      - name: 🔐 Configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: ☁️ Upload para o S3
+        run: aws s3 cp app.zip s3://${{ env.S3_BUCKET_NAME }}/app.zip
+
+      - name: 🆕 Criar nova versão da aplicação
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name $APPLICATION_NAME \
+            --version-label "v-${{ github.run_number }}" \
+            --source-bundle S3Bucket=$S3_BUCKET_NAME,S3Key=app.zip
+
+      - name: 🚀 Atualizar ambiente Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name $ENVIRONMENT_NAME \
+            --version-label "v-${{ github.run_number }}"
